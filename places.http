@@ -1,0 +1,102 @@
+GET http://localhost:3000/api/places HTTP/1.1
+
+###
+
+POST http://localhost:3000/api/places HTTP/1.1
+Content-Type: application/json
+
+{
+    "category": ["pupusas", "pupuseria"],
+    "contact": {
+        "email": "pupuseriaglory@gmail.com",
+        "telephone": ["98374398", "83743421"]
+    },
+    "description": "pupuseria de olocuilta",
+    "gallery": ["foto1", "foto2"],
+    "location": {
+        "description": "centro frente al parque municipal",
+        "ubication": {
+            "lat": 43.435,
+            "lng": 34.434
+        }
+    },
+    "name": "pupusas gloria",
+    "rating": {
+        "rate": 4.5,
+        "voted": [ 
+            {
+                "user": "alvarocojonudo",
+                "rate": 4.6
+            }
+        ]
+    },
+    "schedule": {
+        "weekday": {
+            "from": "16:00",
+            "to": "20:30"
+        },
+        "weekend": {
+            "from": "16:00",
+            "to": "18:00"
+        }
+    }
+}
+
+###
+
+PUT http://localhost:3000/api/places HTTP/1.1
+Content-Type: application/json
+
+{
+    "schedule": {
+      "weekday": {
+        "_id": "60f138b83099ce27be624555",
+        "from": "07:00",
+        "to": "17:30"
+      },
+      "weekend": {
+        "_id": "60f138b83099ce27be624556",
+        "from": "09:00",
+        "to": "15:00"
+      }
+    },
+    "category": [
+      "vegana",
+      "fast food"
+    ],
+    "gallery": [
+      "foto1",
+      "foto2"
+    ],
+    "_id": "60f138b83099ce27be624550",
+    "contact": {
+      "telephone": [
+        "98374398",
+        "83743421"
+      ],
+      "_id": "60f138b83099ce27be624551",
+      "email": "comidavegana@gmail.com"
+    },
+    "description": "este un restaurante de mera comida vegana",
+    "location": {
+      "_id": "60f138b83099ce27be624552",
+      "description": "frente a metrocentro",
+      "ubication": {
+        "_id": "60f138b83099ce27be624553",
+        "lat": 43.435,
+        "lng": 34.434
+      }
+    },
+    "name": "veggie food",
+    "rating": {
+      "voted": [
+        {
+          "user": "alvarocojonudo",
+          "rate": 4.6
+        }
+      ],
+      "_id": "60f138b83099ce27be624554",
+      "rate": 4.5
+    },
+    "__v": 0
+}

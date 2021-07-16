@@ -1,0 +1,28 @@
+{
+  "name": "wte-server",
+  "version": "1.0.0",
+  "description": "Server for WTE Client Aplication.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlvaroCojonudo/WTE-server.git"
+  },
+  "author": "Alcides Nolasco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlvaroCojonudo/WTE-server/issues"
+  },
+  "homepage": "https://github.com/AlvaroCojonudo/WTE-server#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.13.2",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
