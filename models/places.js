@@ -12,8 +12,8 @@ const locationSchema = mongoose.Schema({
     ubication: ubicationSchema
 });
 const ratingScheme = mongoose.Schema({
-    rate: Number,
-    voted: []
+    user: String,
+    rate: Number
 });
 const workDays = mongoose.Schema({
     from: String,
@@ -26,7 +26,7 @@ const placeSchema = mongoose.Schema({
     gallery: [String],
     location: locationSchema,
     name: String,
-    rating: ratingScheme,
+    rating: [ratingScheme],
     schedule: {
         weekday: workDays,
         weekend: workDays

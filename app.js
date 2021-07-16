@@ -9,7 +9,7 @@ const port = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./www'));
-
+app.use('/places/gallery', express.static('./assets/uploads/places'));
 app.use('/api/places', placesRoutes);
 app.use('/api/users', usersRoutes);
 
