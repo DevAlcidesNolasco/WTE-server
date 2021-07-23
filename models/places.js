@@ -1,21 +1,40 @@
 const mongoose = require("mongoose");
+const socialMediaSchema = mongoose.Schema({
+    media: {
+        type: String,
+        enum: ['Instagram', 'Facebook', 'Twitter'],
+        required: true
+    },
+    user: {
+        type: String,
+        require: true
+    }
+});
 const contactSchema = mongoose.Schema({
-    email: String,
+    socialMedia: [socialMediaSchema],
     telephone: [String]
 });
-const ubicationSchema = mongoose.Schema({
-    lat: Number,
-    lng: Number
-});
 const locationSchema = mongoose.Schema({
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+    },
+    coordinates: {
+        type: [Number],
+        required: true
+    }
+});
+const ubicationSchema = mongoose.Schema({
     description: String,
-    ubication: ubicationSchema
+    location: locationSchema
 });
 const ratingScheme = mongoose.Schema({
     user: String,
     rate: Number
 });
 const workDays = mongoose.Schema({
+    interval: String | [String],
     from: String,
     to: String
 });
@@ -24,12 +43,9 @@ const placeSchema = mongoose.Schema({
     contact: contactSchema,
     description: String,
     gallery: [String],
-    location: locationSchema,
+    ubication: ubicationSchema,
     name: String,
     rating: [ratingScheme],
-    schedule: {
-        weekday: workDays,
-        weekend: workDays
-    }
+    schedule: [workDays]
 });
 module.exports = mongoose.model("Place", placeSchema);
