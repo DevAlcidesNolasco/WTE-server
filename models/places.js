@@ -25,10 +25,10 @@ const locationSchema = mongoose.Schema({
         required: true
     }
 });
-const ubicationSchema = mongoose.Schema({
-    description: String,
-    location: locationSchema
-});
+//const ubicationSchema = mongoose.Schema({
+//    description: String,
+//    location: locationSchema
+//});
 const ratingScheme = mongoose.Schema({
     user: String,
     rate: Number
@@ -43,9 +43,12 @@ const placeSchema = mongoose.Schema({
     contact: contactSchema,
     description: String,
     gallery: [String],
-    ubication: ubicationSchema,
+    ubication: String,
+    location: locationSchema,
     name: String,
     rating: [ratingScheme],
     schedule: [workDays]
 });
+
+placeSchema.index({ location: '2dsphere' });
 module.exports = mongoose.model("Place", placeSchema);

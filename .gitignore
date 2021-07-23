@@ -1,2 +1,4 @@
 /node_modules
-/assets/uploads
+/assets/uploads/*.jpg
+/assets/uploads/*.png
+/assets/uploads/*.jpeg

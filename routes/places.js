@@ -17,28 +17,34 @@ const upload = multer({ storage: fileStorage });
 
 router.get('/', async (req, res) => {
     const { _id } = req.body;
-    const response = (_id) ? await placeModel.findById(_id) : await placeModel.find();
+    const { distance, coordinates } = req.body;
+    const response = (_id) ? await placeModel.find({ _id: _id }) : await placeModel.find({
+        location: {
+            $nearSphere: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: [
+                        coordinates.lat,
+                        coordinates.lng
+                    ]
+                },
+                $maxDistance: (distance) ? distance : 500
+            }
+        }
+    });
     res.json({
-        "messaje": "get all places",
+        "messaje": (_id) ? "Se encontró el sitio que buscabas" : "Encontramos estos lugares cercanos a tí",
         "response": response
     });
 });
 
 router.post('/', async (req, res) => {
-    const params = req.body;
-    const place = new placeModel({
-        category: params.category,
-        contact: params.contact,
-        description: params.description,
-        gallery: params.gallery,
-        location: params.location,
-        name: params.name,
-        rating: params.rating,
-        schedule: params.schedule
-    });
-    const response = await place.save();
+    const { place } = req.body;
+    const preparingPlace = new placeModel(place);
+    const response = await preparingPlace.save();
+    const message = (response !== null) ? "guardado con exito" : "no se pudo realizar accion";
     res.json({
-        "message": "posting to places",
+        "message": message,
         "response": response
     });
 });
@@ -60,6 +66,21 @@ router.put('/', async (req, res) => {
         "message": "updating a place",
         "response": response
     });
+});
+
+router.patch('/', async (req, res) => {
+    const params = req.body;
+    const { _id, ...newObject } = params;
+    console.log(newObject);
+    const response = await placeModel.updateOne({ _id: params._id }, { $set: newObject });
+    res.json({
+        'message': 'patchin place',
+        'response': response
+    });
+});
+
+router.delete('', (req, res) => {
+
 });
 
 router.post('/gallery', upload.array("gallery"), async (req, res) => {
