@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/AlvaroCojonudo/WTE-server#readme",
   "dependencies": {
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.2",
     "multer": "^1.4.2",
     "pug": "^3.0.2",

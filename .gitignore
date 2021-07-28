@@ -2,3 +2,4 @@
 /assets/uploads/*.jpg
 /assets/uploads/*.png
 /assets/uploads/*.jpeg
+.env

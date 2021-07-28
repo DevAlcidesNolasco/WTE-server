@@ -12,6 +12,7 @@ app.use('/api/places', placesRoutes);
 app.use('/api/users', usersRoutes);
 mongoose.connect('mongodb://localhost:27017/WTE', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
+//console.log(require('crypto').randomBytes(64).toString('hex'));
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log("database conected!");
