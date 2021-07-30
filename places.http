@@ -127,3 +127,25 @@ Content-Type: application/json
   },
   "_id": "60fa6aed48353712a3d772a1"
 }
+
+###
+POST http://localhost:3000/api/users/register
+Content-Type: application/json
+
+{
+  "user": {
+    "email": "alvarocojonudo@gmail.com",
+    "password": "avavo1997"
+  }
+}
+
+###
+POST http://localhost:3000/api/users/login
+Content-Type: application/json
+
+{
+  "user": {
+    "email": "alvarocojonudo@gmail.com",
+    "password": "avavo1997"
+  }
+}

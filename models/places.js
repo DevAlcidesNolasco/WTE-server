@@ -25,10 +25,6 @@ const locationSchema = mongoose.Schema({
         required: true
     }
 });
-//const ubicationSchema = mongoose.Schema({
-//    description: String,
-//    location: locationSchema
-//});
 const ratingScheme = mongoose.Schema({
     user: String,
     rate: Number
@@ -48,6 +44,8 @@ const placeSchema = mongoose.Schema({
     name: String,
     rating: [ratingScheme],
     schedule: [workDays]
+}, {
+    collection: "places"
 });
 
 placeSchema.index({ location: '2dsphere' });
