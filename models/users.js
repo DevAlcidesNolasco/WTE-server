@@ -15,6 +15,10 @@ const userSchema = mongoose.Schema({
         type: String,
         enum: ['USER', 'ADMIN'],
         default: 'USER'
+    },
+    photoUrl: {
+        type: String,
+        default: "http://localhost:3000/users/photo/default.png"
     }
 }, {
     collection: "users"

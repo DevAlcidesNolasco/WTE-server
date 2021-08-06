@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./www'));
 app.use('/places/gallery', express.static('./assets/uploads/places'));
+app.use('/users/photo', express.static('./assets/uploads/users'));
 app.use('/api/places', placesRoutes);
 app.use('/api/users', usersRoutes);
 //console.log(require('crypto').randomBytes(64).toString('hex'));

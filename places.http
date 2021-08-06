@@ -8,10 +8,11 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/api/places/closeToMe HTTP/1.1
 Content-Type: application/json
+Authorization: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFsdmFyb2Nvam9udWRvQGdtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiX2lkIjoiNjEwNDU0ODc0Yzk5ZDIxNzg0ODhhNzAyIiwiaWF0IjoxNjI4MjM5MDc1LCJleHAiOjE2MjgyMzkxMDV9.bDCBB0bKcfwpqb-nh91qcOoJKvf3PK6Y-ovKRc5y5aQ
 
 {
   "coordinates": {
-    "lat":13.484139, 
+    "lat": 13.484139, 
     "lng": -88.191460
   },
   "distance": 400
