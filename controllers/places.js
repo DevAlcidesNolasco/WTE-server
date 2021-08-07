@@ -21,7 +21,7 @@ const getPlacesNear = async (req, res) => {
 }
 const getPlace = async (req, res) => {
     const { _id } = req.body;
-    const response = await placeModel.find({ _id: _id });
+    const response = await placeModel.findOne({ _id: _id });
     res.json({
         "messaje": "Se encontró el sitio que buscabas",
         "response": response

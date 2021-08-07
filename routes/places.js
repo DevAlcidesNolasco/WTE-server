@@ -19,7 +19,10 @@ const fileStorage = multer.diskStorage({
 });
 const upload = multer({ storage: fileStorage });
 
-router.get('/', getPlace);
+router.get('/', (req, res, next) => {
+    req.roleAllowed = 0;
+    next();
+}, authenticateToken, getPlace);
 router.get('/closeToMe', (req, res, next) => {
     req.roleAllowed = 0;
     next();
