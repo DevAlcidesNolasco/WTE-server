@@ -1,12 +1,3 @@
-//const updatePlace = async (req, res) => {
-//    const { place } = req.body;
-//    const { _id, ...updatedPlace } = place;
-//    const response = await placeModel.findOneAndUpdate({ _id: _id }, { $set: { updatedPlace } });
-//    res.json({
-//        "message": "actualizado con exito",
-//        "response": response
-//    });
-//}
 import Place from "../models/places";
 export const getPlaces = async (req, res) => {
     let { distance } = req.body;
@@ -16,7 +7,10 @@ export const getPlaces = async (req, res) => {
         message: "No ha proporcionado ubicacion"
     });
     const { lat, lng } = coordinates;
-    const message = `Obteniendo lugares en Latitud: ${lat} Longitud: ${lng}, en un radio de ${distance}`;
+    //const { filters } = req.body;
+    //if (!filters) return 
+    //const { starsAbove } = filters;
+    //console.log(starsAbove);
     const places = await Place.find({
         location: {
             $nearSphere: {
@@ -27,11 +21,9 @@ export const getPlaces = async (req, res) => {
                 $maxDistance: distance
             }
         }
+        //category
     });
-    console.log(message);
-    res.json(places); {
-
-    }
+    res.json(places);
 };
 export const createPlace = async (req, res) => {
     const preparedPlace = new Place(req.body);
@@ -43,9 +35,10 @@ export const putPlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    const updatedPlace = await Place.findByIdAndUpdate(placeId, req.body, {
-        new: true
+    if (!placeId.match(/^[0-9a-fA-F]{24}$/)) return res.json({
+        message: "El id del lugar no es valido"
     });
+    const updatedPlace = await Place.findByIdAndUpdate(placeId, { $set: req.body }, { new: true });
     if (!updatedPlace) return res.json({
         message: "No existe ese lugar"
     });
@@ -55,6 +48,9 @@ export const removePlace = async (req, res) => {
     const { placeId } = req.params;
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
+    });
+    if (!placeId.match(/^[0-9a-fA-F]{24}$/)) return res.json({
+        message: "El id del lugar no es valido"
     });
     const placeDeleted = await Place.findByIdAndRemove(placeId);
     if (!placeDeleted) return res.json({
@@ -67,10 +63,12 @@ export const getPlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
+    if (!placeId.match(/^[0-9a-fA-F]{24}$/)) return res.json({
+        message: "El id del lugar no es valido"
+    });
     const placeFound = await Place.findById(placeId);
     if (!placeFound) return res.json({
         message: "No existe ese lugar"
     });
     res.json(placeFound);
 };
-

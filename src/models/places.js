@@ -43,10 +43,7 @@ const placeSchema = new Schema({
     description: String,
     gallery: [String],
     ubication: String,
-    location: {
-        type: locationSchema,
-        index: "2dsphere"
-    },
+    location: locationSchema,
     name: {
         type: String,
         required: [true, "No se proporcionó nombre"]
@@ -54,7 +51,6 @@ const placeSchema = new Schema({
     rating: [ratingScheme],
     schedule: [workDays]
 });
-export default model("Place", placeSchema);
-//
-//placeSchema.index({ location: '2dsphere' });
-//module.exports = mongoose.model("Place", placeSchema);
+const placeModel = model("Place", placeSchema);
+placeModel.createIndexes({ location: "2dsphere" });
+export default placeModel;
