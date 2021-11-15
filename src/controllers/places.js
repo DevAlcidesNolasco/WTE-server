@@ -35,12 +35,15 @@ export const putPlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    if (!placeId.match(/^[0-9a-fA-F]{24}$/)) return res.json({
+    if (!isValidId(placeId)) return res.json({
         message: "El id del lugar no es valido"
     });
-    const updatedPlace = await Place.findByIdAndUpdate(placeId, { $set: req.body }, { new: true });
-    if (!updatedPlace) return res.json({
+    const updatedPlace = await Place.replaceOne({ _id: placeId }, req.body);
+    if (updatedPlace.n === 0) return res.json({
         message: "No existe ese lugar"
+    });
+    if (updatedPlace.nModified === 0) return res.json({
+        message: "No se pudo editar el lugar"
     });
     res.json(updatedPlace);
 };
@@ -49,7 +52,7 @@ export const removePlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    if (!placeId.match(/^[0-9a-fA-F]{24}$/)) return res.json({
+    if (!isValidId(placeId)) return res.json({
         message: "El id del lugar no es valido"
     });
     const placeDeleted = await Place.findByIdAndRemove(placeId);
@@ -63,7 +66,7 @@ export const getPlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    if (!placeId.match(/^[0-9a-fA-F]{24}$/)) return res.json({
+    if (!isValidId(placeId)) return res.json({
         message: "El id del lugar no es valido"
     });
     const placeFound = await Place.findById(placeId);
@@ -72,3 +75,4 @@ export const getPlace = async (req, res) => {
     });
     res.json(placeFound);
 };
+const isValidId = (id) => id.match(/^[0-9a-fA-F]{24}$/);

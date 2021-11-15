@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const userSchema = mongoose.Schema({
+import { Schema, model } from "mongoose";
+const userSchema = new Schema({
     email: {
         type: String,
         require: true,
@@ -7,20 +7,18 @@ const userSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        require: true,
-        minLength: 60,
-        maxLength: 60
+        require: true
     },
-    role: {
-        type: String,
-        enum: ['USER', 'ADMIN'],
-        default: 'USER'
-    },
+    roles: [{
+        ref: "Role",
+        type: Schema.Types.ObjectId
+    }],
     photoUrl: {
         type: String,
         default: "http://localhost:3000/users/photo/default.png"
     }
 }, {
-    collection: "users"
+    timestamps: true,
+    versionKey: false
 });
-module.exports = mongoose.model("User", userSchema);
+export default model("User", userSchema);

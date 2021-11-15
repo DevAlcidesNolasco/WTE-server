@@ -25,7 +25,8 @@
 import express from "express";
 import morgan from "morgan";
 import pkg from "../package.json";
-import placesRoutes from "./routes/places"
+import placesRoutes from "./routes/places";
+import authenticationRoutes from "./routes/authentication";
 const app = express();
 app.set("pkg", pkg);
 app.use(morgan("dev"));
@@ -39,4 +40,5 @@ app.get("/", (req, res) => {
     });
 });
 app.use("/api/places", placesRoutes);
+app.use("/api/authentication", authenticationRoutes);
 export default app;
