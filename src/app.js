@@ -21,23 +21,22 @@
 //app.listen(port, () => {
 //    console.log(`Example app listening at http://localhost:${port}`);
 //});
-
 import express from "express";
 import morgan from "morgan";
 import pkg from "../package.json";
 import placesRoutes from "./routes/places";
 import authenticationRoutes from "./routes/authentication";
+import { randomBytes } from 'crypto';
+import dotenv from "dotenv";
+dotenv.config();
+console.log(randomBytes(64).toString("hex"));
 const app = express();
 app.set("pkg", pkg);
 app.use(morgan("dev"));
 app.use(express.json());
 app.get("/", (req, res) => {
-    res.json({
-        author: app.get("pkg").author,
-        name: app.get("pkg").name,
-        description: app.get("pkg").description,
-        version: app.get("pkg").version,
-    });
+    const { name, author, description, version } = app.get("pkg");
+    res.json({ author, name, description, version });
 });
 app.use("/api/places", placesRoutes);
 app.use("/api/authentication", authenticationRoutes);
