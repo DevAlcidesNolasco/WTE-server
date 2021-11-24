@@ -1,54 +1,14 @@
-//const userModel = require('../models/users');
-const bcrypt = require('bcrypt');
-const userModel = require('../models/users');
-const { authenticateToken, generateToken } = require('../middleware/tokenAuthentication');
-const saltRounds = 12;
-
-const register = async (req, res) => {
-    const { user } = req.body;
-    const { email, password } = user;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const passwordHashed = await bcrypt.hash(password, salt);
-    const preparedUser = {
-        "email": email,
-        "password": passwordHashed
-    }
-    //console.log(preparedUser);
-    const userDoc = new userModel(preparedUser);
-    const response = await userDoc.save();
+import User from '../models/users';
+export const getUserInfo = async (req, res) => {
+    const { userId } = req.params;
+    if (!userId) return res.json({
+        message: "No se ha proporcionado id de usuario"
+    });
+    const userFound = await User.findOne({ _id: userId }, { password: 0 });
+    res.json(userFound);
+}
+export const getAllUsers = async (req, res) => {
     res.json({
-        "message": "guardado con exito",
-        "response": response
+        users: await User.find({}, { password: 0 })
     });
 }
-
-const login = async (req, res) => {
-    //console.log(req.body);
-    const { user } = req.body;
-    const { email, password } = user;
-    const userDoc = await userModel.findOne({ email: email });
-    const matchPassword = await bcrypt.compare(password, userDoc.password);
-    if (matchPassword) {
-        const { email, role, _id } = userDoc;
-        const token = generateToken({ "email": email, "role": role, "_id": _id });
-        res.json({
-            "message": `Inicio de sesion exitoso`,
-            "response": {
-                "autheticated": token
-            }
-        });
-    } else {
-        res.json({
-            "message": `Inicio de sesion fallido`
-            //"response": {
-            //    "autheticated": matchPassword
-            //}
-        });
-    }
-
-}
-
-module.exports = {
-    register,
-    login
-};

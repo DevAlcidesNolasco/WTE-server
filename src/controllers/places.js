@@ -4,7 +4,7 @@ export const getPlaces = async (req, res) => {
     distance = distance ? distance : 300;
     const { coordinates } = req.body;
     if (!coordinates) return res.json({
-        message: "No ha proporcionado ubicacion"
+        message: "No ha proporcionado ubicación"
     });
     const { lat, lng } = coordinates;
     //const { filters } = req.body;

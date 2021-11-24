@@ -1,14 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const { register, login } = require('../controllers/users');
-
-router.get('/', (req, res) => {
-    res.json({
-        "messaje": "get all users"
-    });
-});
-
-router.post('/register', register);
-router.post('/login', login);
-
-module.exports = router;
+import { Router } from "express";
+import * as userController from '../controllers/users';
+const router = Router();
+router.get('/', userController.getAllUsers);
+router.get('/:userId', userController.getUserInfo);
+router.post("/");
+router.put("/:userId");
+router.delete("/:userId");
+export default router;
