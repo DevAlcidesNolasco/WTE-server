@@ -1,7 +1,7 @@
 {
-  "name": "WhereToEat-Server",
+  "name": "wheretoeat-server",
   "version": "0.0.5",
-  "description": "Server for Where To Eat Platform.",
+  "description": "Server for Where To Eat Platform",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
