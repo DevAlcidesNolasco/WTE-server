@@ -6,5 +6,5 @@ router.get("/", placesController.getPlaces);
 router.get("/:placeId", placesController.getPlace);
 router.post("/", [authorization.tokenVerification, authorization.isModerator], placesController.createPlace);
 router.put("/:placeId", placesController.putPlace);
-router.delete("/:placeId", placesController.removePlace);
+router.delete("/:placeId", [authorization.tokenVerification, authorization.isAdmin]);
 export default router;

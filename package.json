@@ -1,7 +1,7 @@
 {
-  "name": "WTE-Server",
-  "version": "0.0.3",
-  "description": "Server for WTE Client Aplication.",
+  "name": "WhereToEat-Server",
+  "version": "0.0.5",
+  "description": "Server for Where To Eat Platform.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

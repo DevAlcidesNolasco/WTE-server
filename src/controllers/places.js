@@ -1,4 +1,5 @@
 import Place from "../models/places";
+import { isValidObjectId } from '../libs/validations';
 export const getPlaces = async (req, res) => {
     let { distance } = req.body;
     distance = distance ? distance : 300;
@@ -35,7 +36,7 @@ export const putPlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    if (!isValidId(placeId)) return res.json({
+    if (!isValidObjectId(placeId)) return res.json({
         message: "El id del lugar no es valido"
     });
     const updatedPlace = await Place.replaceOne({ _id: placeId }, req.body);
@@ -52,7 +53,7 @@ export const removePlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    if (!isValidId(placeId)) return res.json({
+    if (!isValidObjectId(placeId)) return res.json({
         message: "El id del lugar no es valido"
     });
     const placeDeleted = await Place.findByIdAndRemove(placeId);
@@ -66,7 +67,7 @@ export const getPlace = async (req, res) => {
     if (!placeId) return res.json({
         message: "No ha proporcionado id del lugar"
     });
-    if (!isValidId(placeId)) return res.json({
+    if (!isValidObjectId(placeId)) return res.json({
         message: "El id del lugar no es valido"
     });
     const placeFound = await Place.findById(placeId);
@@ -75,4 +76,3 @@ export const getPlace = async (req, res) => {
     });
     res.json(placeFound);
 };
-const isValidId = (id) => id.match(/^[0-9a-fA-F]{24}$/);
