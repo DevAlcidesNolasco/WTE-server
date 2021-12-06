@@ -1,6 +1,4 @@
 /node_modules
-/assets/uploads/*.jpg
-/assets/uploads/*.png
-/assets/uploads/*.jpeg
 .env
 /dist
+/uploads

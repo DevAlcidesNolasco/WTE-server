@@ -1,7 +1,3 @@
-//app.use(express.urlencoded({ extended: true }));
-//app.use(express.static('./www'));
-//app.use('/places/gallery', express.static('./assets/uploads/places'));
-//app.use('/users/photo', express.static('./assets/uploads/users'));
 import express from "express";
 import morgan from "morgan";
 import pkg from "../package.json";
@@ -9,15 +5,19 @@ import placesRoutes from "./routes/places";
 import authenticationRoutes from "./routes/authentication";
 import usersRoutes from './routes/users';
 import { createRoles } from './libs/initSetup';
+import { createFolder } from './config';
+import { join } from 'path';
 //import { randomBytes } from 'crypto';
 import dotenv from "dotenv";
 const app = express();
+createFolder(['uploads/profile']);
 createRoles();
 dotenv.config();
 //console.log(randomBytes(64).toString("hex"));
 app.set("pkg", pkg);
 app.use(morgan("dev"));
 app.use(express.json());
+app.use("/gallery/profile", express.static("./uploads/profile"));
 app.get("/", (req, res) => {
     const { name, author, description, version } = app.get("pkg");
     res.json({ author, name, description, version });
