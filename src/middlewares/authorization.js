@@ -36,3 +36,13 @@ export const isAdmin = async (req, res, next) => {
     }
     res.status(403).json({ message: "Require Admin Role" });
 }
+export const isSeller = async (req, res, next) => {
+    const user = await User.findOne({ _id: req.userId }, { password: 0, photoUrl: 0, email: 0, fullName: 0, createdAt: 0, updatedAt: 0 }).populate("roles");
+    for (const role of user.roles) {
+        if (role.name === "Seller") {
+            next();
+            return;
+        }
+    }
+    res.status(403).json({ message: "Require Seller Role" });
+}

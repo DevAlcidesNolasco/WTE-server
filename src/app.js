@@ -6,7 +6,6 @@ import authenticationRoutes from "./routes/authentication";
 import usersRoutes from './routes/users';
 import { createRoles } from './libs/initSetup';
 import { createFolder } from './config';
-import { join } from 'path';
 //import { randomBytes } from 'crypto';
 import dotenv from "dotenv";
 const app = express();
