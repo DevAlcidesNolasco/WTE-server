@@ -7,6 +7,6 @@ router.get("/:placeId", placesController.getPlace);
 router.post("/", [authorization.tokenVerification, authorization.isModerator], placesController.createPlace);
 router.put("/:placeId", [authorization.tokenVerification, authorization.isSeller], placesController.putPlace);
 router.delete("/:placeId", [authorization.tokenVerification, authorization.isAdmin]);
-router.get("/similar/:placeId", placesController.similarPlaces);
-router.get("/recommendations/:placeId", placesController.recommendedPlaces);
+router.get("/similar/:placeId", authorization.tokenVerification, placesController.similarPlaces);
+router.get("/recommendations/:placeId", authorization.tokenVerification, placesController.recommendedPlaces);
 export default router;

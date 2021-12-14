@@ -18,11 +18,5 @@ router.get('/', [authorization.tokenVerification, authorization.isModerator], us
 router.get('/:userId', authorization.tokenVerification, userController.getUserInfo);
 router.put("/:userId", [authorization.tokenVerification, authorization.isModerator], userController.updateUser);
 router.delete("/:userId", [authorization.tokenVerification, authorization.isAdmin], userController.deleteUser);
-router.post("/photo/:userId", [authorization.tokenVerification, upload.single('avatar'), (req, res, next) => {
-    const { file } = req;
-    const { filename } = file;
-    const photoUrl = `${req.protocol}://${req.get("host")}/gallery/profile/${filename}`;
-    req.body = { photoUrl };
-    next();
-}], userController.updateUser);
+router.post("/photo/:userId", [authorization.tokenVerification, upload.single('avatar'), userController.prepareToUpdateImage], userController.updateUser);
 export default router;

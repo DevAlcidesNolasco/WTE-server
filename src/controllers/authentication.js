@@ -27,7 +27,19 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: existingUser._id }, process.env.TOKEN_SECRET, { expiresIn: 86400 });
     res.json({ token });
 }
-export const changePassword = (req, res) => {
-    const { password, rePassword, newPassword } = req.body;
+export const changePassword = async (req, res) => {
+    const { email, password, newPassword, newPasswordConfirmation } = req.body;
+    if (!email) return res.json({ message: "No se proporcionó correo" });
+    const existingUser = await User.findOne({ email });
+    if (!existingUser) return res.status(400).json({ message: "Ese correo electrónico no está registrado" });
+    const matchedPassword = await User.verifyPassword(password, existingUser.password);
+    if (!matchedPassword) return res.status(401).json({ message: "La contraseña actual es erronea" });
+    if (newPassword !== newPasswordConfirmation) return res.status(401).json({ message: "Nueva contraseña y confirmacion de nueva contraseña no coinciden" });
+    existingUser.password = await User.encryptPassword(newPassword);
+    const userUpdated = await User.findOneAndUpdate({ _id: existingUser._id }, existingUser, { new: true });
+    res.json({ userUpdated });
 }
-export const forgotPassword = (req, res) => { }
+export const forgotPassword = (req, res) => {
+    const { email } = req.body;
+    res.json({ message: `Sending email to ${email}` });
+}

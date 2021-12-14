@@ -31,3 +31,10 @@ export const deleteUser = async (req, res) => {
     if (!userDeleted) return res.json({ message: "Usuario no existe" });
     res.json(userDeleted);
 }
+export const prepareToUpdateImage = (req, res, next) => {
+    const { file } = req;
+    const { filename } = file;
+    const photoUrl = `${req.protocol}://${req.get("host")}/gallery/profile/${filename}`;
+    req.body = { photoUrl };
+    next();
+}
