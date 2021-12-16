@@ -58,8 +58,31 @@ export const similarPlaces = async (req, res) => {
     searchByCategories(placeFound.category);
     res.json({ message: "Get Similar in 500mts Places" });
 };
+export const getLikes = async (req, res) => {
+    const { userId } = req;
+    console.log(userId);
+    const likedPlaces = await Place.find({ rating: { $elemMatch: { user: userId } } });
+    //console.log("Get Liked Places");
+    res.json(likedPlaces);
+};
+export const likeAPlace = async (req, res) => {
+    const { rating } = req.body;
+    const { userId } = req;
+    const { placeId } = req.params;
+    if (!isValidObjectId(placeId)) return res.json({ message: "El id del lugar no es valido" });
+    if ((rating > 5 || rating < 0) || !rating || isNaN(rating)) return res.json({ message: "Calificacion no valida" });
+    const place = await Place.findOne({ _id: placeId });
+    const found = place.rating.findIndex((rate) => rate.user.toString() === userId);
+    if (found > -1) {
+        place.rating[found].rate = rating;
+    } else {
+        place.rating.push({ user: userId, rate: rating });
+    }
+    const ratingSaved = await place.save();
+    res.json(ratingSaved);
+};
 const searchByCategories = (categories) => {
     for (const category of categories) {
         console.log(category);
     }
-}
+};

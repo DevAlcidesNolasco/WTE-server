@@ -26,7 +26,10 @@ const locationSchema = new Schema({
     }
 });
 const ratingScheme = new Schema({
-    user: String,
+    user: {
+        ref: "User",
+        type: Schema.Types.ObjectId
+    },
     rate: Number
 });
 const workDays = new Schema({
