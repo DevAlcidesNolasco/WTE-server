@@ -79,6 +79,5 @@ const placeSchema = new Schema({
 });
 
 placeSchema.index({ location: "2dsphere" });
-const placeModel = model("Place", placeSchema);
 // placeModel.createIndexes({ location: "2dsphere" });
-export default placeModel;
+export default model("Place", placeSchema);
