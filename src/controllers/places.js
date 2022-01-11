@@ -1,24 +1,46 @@
 import Place from "../models/places";
 import { isValidObjectId } from '../libs/validations';
 export const getPlaces = async (req, res) => {
-    let { distance } = req.body;
-    distance = distance ? distance : 300;
-    const { coordinates } = req.body;
+    // obtener distancia, ubicacion, y filtros de la busqueda
+    // buscar en la base de datos los sitios cercanos a los parametros anteriores
+    // contar el resultado
+    const { distance = 300, coordinates = [13.482903, -88.175427] } = req.body;
     if (!coordinates) return res.json({ message: "No ha proporcionado ubicación" });
-    const { lat, lng } = coordinates;
-    //const { filters } = req.body;
-    //if (!filters) return 
-    //const { starsAbove } = filters;
-    //console.log(starsAbove);
-    const places = await Place.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [lat, lng] }, $maxDistance: distance } } });
-    res.json(places);
+    const { filters = { delivery: null, service: null } } = req.body;
+    const places = await Place.find({
+        location: {
+            $nearSphere: {
+                $geometry: {
+                    type: "Point",
+                    coordinates: coordinates
+                },
+                $maxDistance: distance
+            }
+        }
+    });
+    // const arrayFilters = Object.entries(filters);
+    // arrayFilters.forEach((filter) => {
+    //     if (filter[1]) {
+    //         console.log(filter[1]);
+    //         places.where(filter[0], filter[1]);
+    //     }
+    // });
+    res.json({
+        result: places,
+        count: places.length
+    });
 };
 export const createPlace = async (req, res) => {
+    // obtener informacion de las propiedades del sitio
+    // guarda en la base de datos el sitio
     const preparedPlace = new Place(req.body);
     const savedPlace = await preparedPlace.save();
     res.status(201).json(savedPlace);
 };
 export const putPlace = async (req, res) => {
+    // obtener ID del sitio
+    // obtener objeto con nuevas valores del sitio
+    // actualizar el sitio con ID
     const { placeId } = req.params;
     if (!placeId) return res.json({ message: "No ha proporcionado id del lugar" });
     if (!isValidObjectId(placeId)) return res.json({ message: "El id del lugar no es valido" });
@@ -28,6 +50,8 @@ export const putPlace = async (req, res) => {
     res.json(updatedPlace);
 };
 export const removePlace = async (req, res) => {
+    // obtener ID del sitio
+    // eliminar un sitio con ID
     const { placeId } = req.params;
     if (!placeId) return res.json({ message: "No ha proporcionado id del lugar" });
     if (!isValidObjectId(placeId)) return res.json({ message: "El id del lugar no es valido" });
@@ -37,6 +61,8 @@ export const removePlace = async (req, res) => {
     res.json(placeDeleted);
 };
 export const getPlace = async (req, res) => {
+    // obtener ID del sitio
+    // obtener informacion del sitio con el ID
     const { placeId } = req.params;
     if (!placeId) return res.json({ message: "No ha proporcionado id del lugar" });
     if (!isValidObjectId(placeId)) return res.json({ message: "El id del lugar no es valido" });
@@ -45,12 +71,18 @@ export const getPlace = async (req, res) => {
     res.json(placeFound);
 };
 export const recommendedPlaces = (req, res) => {
+    // buscar los cercanos con las categorias mas buscadas del usuario
+    // obtener categorias mas buscadas
+    // filtrar por los mejores valorados
     const { placeId } = req.params;
     console.log(`Id Place is ${placeId}`);
     console.log(req.body);
     res.json({ message: "Get Recommended Places" });
 };
 export const similarPlaces = async (req, res) => {
+    // obtener ID del sitio
+    // obtener categorias del sitio
+    // buscar sitios con las categorias del ID
     const { placeId } = req.params;
     if (!placeId) return res.json({ message: "No ha proporcionado id del lugar" });
     if (!isValidObjectId(placeId)) return res.json({ message: "El id del lugar no es valido" });
@@ -59,6 +91,8 @@ export const similarPlaces = async (req, res) => {
     res.json({ message: "Get Similar in 500mts Places" });
 };
 export const getLikes = async (req, res) => {
+    // obtener el ID del usuario
+    // obtener todos los sitios que el usuario ha likeado
     const { userId } = req;
     console.log(userId);
     const likedPlaces = await Place.find({ rating: { $elemMatch: { user: userId } } });
@@ -66,6 +100,10 @@ export const getLikes = async (req, res) => {
     res.json(likedPlaces);
 };
 export const likeAPlace = async (req, res) => {
+    // obtener ID del sitio y el usuario
+    // obtener el valor del Rating
+    // obtener sitio del ID
+    // modificar el arreglo con los likes del sitio
     const { rating } = req.body;
     const { userId } = req;
     const { placeId } = req.params;

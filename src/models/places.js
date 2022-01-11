@@ -37,6 +37,28 @@ const workDays = new Schema({
     from: String,
     to: String
 });
+const foodSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    photo: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: [String],
+        required: true
+    }
+});
 const placeSchema = new Schema({
     category: {
         type: [String],
@@ -52,8 +74,11 @@ const placeSchema = new Schema({
         required: [true, "No se proporcionó nombre"]
     },
     rating: [ratingScheme],
-    schedule: [workDays]
+    schedule: [workDays],
+    menu: [foodSchema]
 });
+
+placeSchema.index({ location: "2dsphere" });
 const placeModel = model("Place", placeSchema);
-placeModel.createIndexes({ location: "2dsphere" });
+// placeModel.createIndexes({ location: "2dsphere" });
 export default placeModel;
