@@ -37,28 +37,28 @@ const workDays = new Schema({
     from: String,
     to: String
 });
-const foodSchema = new Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    price: {
-        type: Number,
-        required: true
-    },
-    photo: {
-        type: String,
-        required: true
-    },
-    category: {
-        type: [String],
-        required: true
-    }
-});
+// const foodSchema = new Schema({
+//     name: {
+//         type: String,
+//         required: true
+//     },
+//     description: {
+//         type: String,
+//         required: true,
+//     },
+//     price: {
+//         type: Number,
+//         required: true
+//     },
+//     photo: {
+//         type: String,
+//         required: true
+//     },
+//     category: {
+//         type: [String],
+//         required: true
+//     }
+// });
 const placeSchema = new Schema({
     category: {
         type: [String],
@@ -75,7 +75,7 @@ const placeSchema = new Schema({
     },
     rating: [ratingScheme],
     schedule: [workDays],
-    menu: [foodSchema]
+    // menu: [foodSchema]
 });
 
 placeSchema.index({ location: "2dsphere" });
